@@ -2,6 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/state";
+import { useGetProjectsQuery } from "@/state/api";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -30,13 +31,14 @@ function SideBar() {
   const [showProjects, setshowProjects] = useState(true);
   const [showPriority, setshowPriority] = useState(true);
 
+  const { data: projects } = useGetProjectsQuery();
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
   );
 
   const sidebarClassNames = twMerge(
-    "fixed flex flex-col h-full justify-between shadow-xl transition-all duration-300 h-[100%] z-40 dark:bg-black overflow-y-hidden bg-white transition-all duration-500 ease-in-out ",
+    "fixed flex flex-col h-full justify-between shadow-xl transition-all duration-300 h-[100%] z-40 dark:bg-black overflow-y-auto overflow-x-hidden bg-white transition-all duration-500 ease-in-out ",
     isSidebarCollapsed ? "w-0 hidden" : "w-64",
   );
 
@@ -95,6 +97,15 @@ function SideBar() {
           )}
         </button>
         {/* Projects List */}
+        {showProjects &&
+          projects?.map((project) => (
+            <SidebarLink
+              key={project.id}
+              icon={LuBriefcase}
+              label={project.name}
+              href={`/projects/${project.id}`}
+            />
+          ))}
 
         {/* Priorities links */}
         <button

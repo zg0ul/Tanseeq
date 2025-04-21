@@ -14,11 +14,11 @@
   --color-blue-400: #60a5fa;
   --color-blue-500: #3b82f6;
 
-  --dark-bg: #101214;
-  --dark-secondary: #1d1f21;
-  --dark-tertiary: #3b3d40;
-  --blue-primary: #0275ff;
-  --stroke-dark: #2d3135;
+  --color-dark-bg: #101214;
+  --color-dark-secondary: #1d1f21;
+  --color-dark-tertiary: #3b3d40;
+  --color-blue-primary: #0275ff;
+  --color-stroke-dark: #2d3135;
 }
 
 @layer base {
