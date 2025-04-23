@@ -40,7 +40,7 @@ const ProjectHeader = ({ activeTab, setActiveTab }: Props) => {
       </div>
 
       {/* TABS */}
-      <div className="dark:border-stroke-dark flex flex-wrap-reverse gap-2 border-y border-gray-200 pt-2 pb-[8px] md:items-center">
+      <div className="dark:border-stroke-dark flex flex-wrap-reverse gap-4 border-y border-gray-200 pt-2 pb-[8px] md:items-center">
         <div className="flex flex-1 items-center gap-2 md:gap-4">
           <TabButton
             name="Board"
@@ -67,6 +67,7 @@ const ProjectHeader = ({ activeTab, setActiveTab }: Props) => {
             activeTab={activeTab}
           />
         </div>
+        {/* SEARCH AND FILTER */}
         <div className="flex items-center gap-2">
           <button className="text-gray-500 hover:text-gray-600 dark:text-neutral-500 dark:hover:text-gray-300">
             <Filter className="h-5 w-5" />
