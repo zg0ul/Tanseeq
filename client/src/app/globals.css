@@ -40,6 +40,16 @@
   }
 }
 
+@layer components {
+  .inputStyles {
+    @apply dark:border-dark-tertiary dark:bg-dark-tertiary w-full rounded border border-gray-300 p-2 shadow-sm dark:text-white dark:focus:outline-none;
+  }
+
+  .selectStyles {
+    @apply dark:border-dark-tertiary dark:bg-dark-tertiary mb-4 block w-full border border-gray-300 px-3 py-2 dark:text-white dark:focus:outline-none;
+  }
+}
+
 /* TIMELINE STYLING */
 .timeline ._3_ygE {
   @apply dark:border-stroke-dark rounded-tl-md border border-r-0 border-[#e6e4e4];
@@ -84,4 +94,3 @@
   width: 0px;
   height: 0px;
 }
-

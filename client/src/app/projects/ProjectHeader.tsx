@@ -1,9 +1,11 @@
 import Header from "@/components/Header";
+import ModalNewProject from "@/components/projects/ModalNewProject";
 import {
   Clock,
   Filter,
   Grid3x3,
   List,
+  LucidePlusSquare,
   PlusSquare,
   Share2,
   Table,
@@ -21,19 +23,19 @@ const ProjectHeader = ({ activeTab, setActiveTab }: Props) => {
 
   return (
     <div className="px-4 xl:px-6">
-      {/* <ModalNewProject
+      <ModalNewProject
         isOpen={isModalNewProjectOpen}
         onClose={() => setIsModalNewProjectOpen(false)}
-      /> */}
+      />
       <div className="pt-6 pb-6 lg:pt-8 lg:pb-4">
         <Header
           name="Product Design Development"
           buttonComponent={
             <button
-              className="bg-blue-primary flex items-center rounded-md px-3 py-2 text-white hover:bg-blue-600"
+              className="bg-blue-primary flex cursor-pointer items-center rounded-md px-3 py-2 text-white hover:bg-blue-600"
               onClick={() => setIsModalNewProjectOpen(true)}
             >
-              <PlusSquare className="mr-2 h-5 w-5" /> New Boards
+              <LucidePlusSquare className="mr-2 h-5 w-5" /> New Boards
             </button>
           }
         />

@@ -3,7 +3,7 @@ import { useGetTasksQuery } from "@/state/api";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React from "react";
 import Header from "../Header";
-import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
+import { dataGridSxStyles } from "@/lib/utils";
 
 type Props = {
   id: string;
@@ -112,12 +112,23 @@ function TableView({ id, setIsModalNewTaskOpen }: Props) {
   return (
     <div className="h-[540px] w-full px-4 pb-8 xl:px-6">
       <div className="pt-5">
-        <Header name="Table" isSmallText />
+        <Header
+          name="Table"
+          isSmallText
+          buttonComponent={
+            <button
+              className="bg-blue-primary flex items-center rounded px-3 py-2 text-white hover:bg-blue-600"
+              onClick={() => setIsModalNewTaskOpen(true)}
+            >
+              Add Task
+            </button>
+          }
+        />
       </div>
       <DataGrid
         rows={tasks || []}
         columns={columns}
-        className="border border-gray-200 bg-white shadow dark:border-stroke-dark dark:bg-dark-secondary dark:text-gray-200"
+        //   className={dataGridClassNames}
         sx={dataGridSxStyles(isDarkMode)}
       />
     </div>
