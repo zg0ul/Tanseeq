@@ -60,6 +60,12 @@ export interface Task {
   attachments?: Attachment[];
 }
 
+export interface SearchResult {
+  tasks?: Task[];
+  projects?: Project[];
+  users?: User[];
+}
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL }),
   reducerPath: "api",
@@ -83,6 +89,18 @@ export const api = createApi({
     }),
     getTasks: build.query<Task[], { projectId: number }>({
       query: ({ projectId }) => `tasks?projectId=${projectId}`,
+      transformResponse: (response: Task[]) => {
+        console.log("Raw task data:", response); // Debug log to see raw data
+        return response.map((task) => {
+          // Ensure author is properly processed if it exists in the response
+          if (task.authorUserId && !task.author) {
+            console.warn(
+              `Task ${task.id} has authorUserId but no author object`,
+            );
+          }
+          return task;
+        });
+      },
       providesTags: (result) =>
         result
           ? result.map(({ id }) => ({ type: "Tasks" as const, id }))
@@ -113,6 +131,9 @@ export const api = createApi({
         { type: "Tasks", id: taskId },
       ],
     }),
+    search: build.query<SearchResult, string>({
+      query: (query) => `search?query=${query}`,
+    }),
   }),
 });
 
@@ -122,4 +143,6 @@ export const {
   useGetTasksQuery,
   useCreateTaskMutation,
   useUpdateTaskStatusMutation,
+  useSearchQuery,
+  useGetTasksByUserQuery,
 } = api;

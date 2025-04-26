@@ -50,6 +50,23 @@ function TaskCard({ task }: Props) {
       .filter((tag) => tag);
   };
 
+  // Helper function to get initials from a username or user ID
+  const getUserInitials = (username?: string, userId?: number): string => {
+    if (username) {
+      return username.charAt(0).toUpperCase();
+    }
+    if (userId) {
+      return `U${userId}`.charAt(0).toUpperCase();
+    }
+    return "?";
+  };
+
+  // Check if we actually have author data available
+  const hasAuthorData = task.author || task.authorUserId;
+
+  // Check if we actually have assignee data available
+  const hasAssigneeData = task.assignee || task.assignedUserId;
+
   return (
     <div className="dark:bg-dark-secondary relative mb-3 overflow-hidden rounded-lg bg-white shadow-sm transition-all duration-200 hover:shadow-md dark:text-white">
       {/* Top status bar - visual indicator of status matching BoardView colors */}
@@ -159,7 +176,7 @@ function TaskCard({ task }: Props) {
 
         {/* User information section */}
         <div className="flex flex-wrap items-center justify-between gap-2">
-          {/* Author - Following BoardView style for user display */}
+          {/* Author */}
           <div className="flex items-center">
             <div className="dark:border-dark-secondary relative mr-2 h-8 w-8 overflow-hidden rounded-full border-2 border-white">
               {task.author?.profilePictureUrl ? (
@@ -170,8 +187,8 @@ function TaskCard({ task }: Props) {
                   className="object-cover"
                 />
               ) : (
-                <div className="flex h-full w-full items-center justify-center bg-blue-100 text-sm font-medium text-blue-600 dark:bg-blue-900 dark:text-blue-300">
-                  {task.author?.username.charAt(0).toUpperCase()}
+                <div className="flex h-full w-full items-center justify-center bg-purple-100 text-sm font-medium text-purple-600 dark:bg-purple-900 dark:text-purple-300">
+                  {getUserInitials(task.author?.username, task.authorUserId)}
                 </div>
               )}
             </div>
@@ -180,7 +197,11 @@ function TaskCard({ task }: Props) {
                 Created by
               </p>
               <p className="text-sm font-medium text-gray-900 dark:text-white">
-                {task.author ? task.author.username : "Unknown"}
+                {task.author?.username
+                  ? task.author.username
+                  : task.authorUserId
+                    ? `User #${task.authorUserId}`
+                    : "Unknown"}
               </p>
             </div>
           </div>
@@ -199,7 +220,10 @@ function TaskCard({ task }: Props) {
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center bg-green-100 text-sm font-medium text-green-600 dark:bg-green-900 dark:text-green-300">
-                      {task.assignee.username.charAt(0).toUpperCase()}
+                      {getUserInitials(
+                        task.assignee.username,
+                        task.assignedUserId,
+                      )}
                     </div>
                   )}
                 </div>
@@ -209,6 +233,22 @@ function TaskCard({ task }: Props) {
                   </p>
                   <p className="text-sm font-medium text-gray-900 dark:text-white">
                     {task.assignee.username}
+                  </p>
+                </div>
+              </>
+            ) : task.assignedUserId ? (
+              <>
+                <div className="dark:border-dark-secondary relative mr-2 h-8 w-8 overflow-hidden rounded-full border-2 border-white">
+                  <div className="flex h-full w-full items-center justify-center bg-green-100 text-sm font-medium text-green-600 dark:bg-green-900 dark:text-green-300">
+                    {getUserInitials(undefined, task.assignedUserId)}
+                  </div>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Assigned to
+                  </p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">
+                    User #{task.assignedUserId}
                   </p>
                 </div>
               </>

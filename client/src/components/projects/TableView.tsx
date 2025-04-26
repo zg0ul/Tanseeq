@@ -4,6 +4,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React from "react";
 import Header from "../Header";
 import { dataGridSxStyles } from "@/lib/utils";
+import Image from "next/image";
 
 type Props = {
   id: string;
@@ -77,13 +78,31 @@ const columns: GridColDef[] = [
     field: "author",
     headerName: "Author",
     width: 150,
-    renderCell: (params) => params.value?.author || "Unknown",
+    renderCell: (params) => {
+      const row = params.row;
+      if (row.author) {
+        return row.author.username;
+      } else if (row.authorUserId) {
+        return `User #${row.authorUserId}`;
+      } else {
+        return "Unknown";
+      }
+    },
   },
   {
     field: "assignee",
     headerName: "Assignee",
     width: 150,
-    renderCell: (params) => params.value?.assignee || "Unassigned",
+    renderCell: (params) => {
+      const row = params.row;
+      if (row.assignee) {
+        return row.assignee.username;
+      } else if (row.assignedUserId) {
+        return `User #${row.assignedUserId}`;
+      } else {
+        return "Unassigned";
+      }
+    },
   },
 ];
 
@@ -95,6 +114,13 @@ function TableView({ id, setIsModalNewTaskOpen }: Props) {
     isLoading,
     error,
   } = useGetTasksQuery({ projectId: Number(id) });
+
+  // Debug log to check task data
+  React.useEffect(() => {
+    if (tasks) {
+      console.log("Tasks data in TableView:", tasks);
+    }
+  }, [tasks]);
 
   if (isLoading)
     return (

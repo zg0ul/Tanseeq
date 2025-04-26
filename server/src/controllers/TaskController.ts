@@ -82,6 +82,13 @@ export const updateTaskStatus = async (
       data: {
         status: status,
       },
+      // Include relationships to ensure author data is returned
+      include: {
+        author: true,
+        assignee: true,
+        comments: true,
+        attachments: true,
+      },
     });
     res.json(updatedTask);
   } catch (error: any) {
