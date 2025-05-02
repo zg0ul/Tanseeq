@@ -82,6 +82,13 @@ export interface SearchResult {
   users?: User[]; // Array of users matching the search query
 }
 
+export interface Teams {
+  teamId: number; // Primary identifier for the team
+  teamName: string; // Name of the team
+  productOwnerUserId: number; // ID of the product owner
+  projectManagerUserId: number; // ID of the project manager
+}
+
 // Create and configure the Redux Toolkit Query API
 // This sets up an API client with endpoints for data fetching and mutation
 export const api = createApi({
@@ -93,7 +100,7 @@ export const api = createApi({
 
   // Define tag types for cache invalidation
   // When mutations happen, we can invalidate specific tags to refetch data
-  tagTypes: ["Projects", "Tasks", "Users"],
+  tagTypes: ["Projects", "Tasks", "Users", "Teams"],
 
   // Define all the endpoints for interacting with the backend API
   endpoints: (build) => ({
@@ -181,6 +188,11 @@ export const api = createApi({
       providesTags: ["Users"], // Cache results with "Users" tag
     }),
 
+    getTeams: build.query<Teams[], void>({
+      query: () => "teams",
+      providesTags: ["Teams"], // Cache results with "Teams" tag
+    }),
+
     // Search across tasks, projects, and users
     search: build.query<SearchResult, string>({
       query: (query) => `search?query=${query}`,
@@ -199,4 +211,5 @@ export const {
   useSearchQuery, // Hook to search across entities
   useGetTasksByUserQuery, // Hook to fetch tasks for a user
   useGetUsersQuery, // Hook to fetch all users
+  useGetTeamsQuery, // Hook to fetch all teams
 } = api;

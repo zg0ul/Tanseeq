@@ -15,7 +15,6 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 // when we call the /projects route, this function will be called
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { projectId } = req.query;
     try {
         const users = yield prisma.user.findMany();
         res.json(users);

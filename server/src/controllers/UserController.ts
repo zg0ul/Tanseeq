@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 
 // when we call the /projects route, this function will be called
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
-  const { projectId } = req.query;
   try {
     const users = await prisma.user.findMany();
     res.json(users);
